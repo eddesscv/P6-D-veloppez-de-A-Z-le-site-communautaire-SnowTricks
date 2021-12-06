@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %} {% form_theme formTrick 'bootstrap_4_layout.html.twig' %} {% block body %} {% if editMode %}
+<h1>Modification de la figure !</h1>
+{% else %}
+<h1>Création d'une figure !</h1>
+
+<li>{{ error.message }}</li>
+{% endfor %} {% endif %} {{ form_start(formTrick) }} {{ form_errors(formTrick.title) }} {{ form_row(formTrick.title, {'attr' : {'placeholder': "Titre de la figure"}}) }} {{ form_row(formTrick.description, {'attr' : {'placeholder': "Description de la figure"}})
+}}
+
+<button type="submit" class="btn btn-success">
+    {% if editMode %}
+    Enregistrer les modifications
+    {% else %}
+    Ajouter la figure
+    {% endif %}
+</button> {{ form_end(formTrick) }} {% endblock %}

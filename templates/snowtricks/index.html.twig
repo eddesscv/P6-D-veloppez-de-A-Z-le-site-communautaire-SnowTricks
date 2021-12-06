@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %} {% block title %}Hello {{ controller_name }} {% endblock %} {% block body %}
+
+<section class="articles">
+    {% for trick in tricks %}
+    <article>
+        <h2>{{ trick.title }}</h2>
+        <div class="metadata">Ecrit le {{ trick.createdAt | date('d/m/Y') }} à {{ trick.createdAt | date('H:i') }} dans la catégorie Snow</div>
+        <div class="content">
+            {{ trick.description | raw }}
+            <a href="{{ path('snowtricks_show', {'id': trick.id }) }}" class="btn btn-primary">Lire la suite</a>
+        </div>
+    </article>
+    {% endfor %}
+
+</section>
+
+{% endblock %}
