@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\Persistence\ObjectManager;
@@ -75,10 +77,28 @@ class SnowtricksController extends AbstractController
      *
      * @Route ("/snowtricks/{id}", name="snowtricks_show")
      */
-    public function show(Trick $trick)
+    public function show(Trick $trick, Request $request, ObjectManager $manager)
     {
+
+        $comment = new Comment;
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setCreatedAt(new \DateTime())
+                ->setTrick($trick);
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('snowtricks_show', ['id' => $trick->getId()]);
+        }
+
         return $this->render('snowtricks/show.html.twig', [
-            'trick' => $trick
+            'trick' => $trick,
+            'commentForm' => $form->createView()
         ]);
     }
 }

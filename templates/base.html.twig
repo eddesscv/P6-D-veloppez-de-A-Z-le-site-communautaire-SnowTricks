@@ -29,6 +29,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('snowtricks_create')}}">Créer une figure</a>
                     </li>
+
+                    {% if not app.user %}
+                    <li class="nav-item">
+                        <a href="{{ path('account_login') }}" class="nav-link">Connexion</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{{ path('account_logout') }}" class="nav-link">Déconnexion</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
