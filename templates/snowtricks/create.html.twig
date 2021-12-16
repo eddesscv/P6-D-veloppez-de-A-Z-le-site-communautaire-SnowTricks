@@ -1,19 +1,23 @@
-{% extends "base.html.twig" %} {% form_theme formTrick 'bootstrap_5_layout.html.twig' %} {% block body %} {% if editMode %}
-<h1>Modification de la figure !</h1>
-{% else %}
-<h1>Création d'une figure !</h1>
+{% extends 'base.html.twig' %} {% block title %}SnowTricks - Créer un trick{% endblock %} {% form_theme formTrick 'shared/_collection.html.twig' %} {% block body %}
+<div class="col-lg-7 col-md-10 mx-auto">
+    <h1>Créer un nouveau trick</h1>
+    {{ form_start(formTrick) }} {{ form_row(formTrick.title) }} {{ form_row(formTrick.description) }} {{ form_row(formTrick.category) }}
 
-{% endif %} {{ form_start(formTrick) }}
+    <div class="form-group">
+        {{ form_label(formTrick.mainImage) }}
+        <div class="row">
+            <div class="col-sm-6">
+                {{ form_errors(formTrick.mainImage.file) }} {{ form_widget(formTrick.mainImage.file) }} {{ form_help(formTrick.mainImage.file) }}
+            </div>
+            <div class="col-sm-6">
+                {{ form_errors(formTrick.mainImage.alt) }} {{ form_widget(formTrick.mainImage.alt) }} {{ form_help(formTrick.mainImage.alt) }}
+            </div>
+        </div>
+    </div>
 
+    <!-- {{ form_row(formTrick.images) }} {{ form_row(formTrick.videos) }} -->
 
-<div class="row">
-    {{ form_row(formTrick.title, {'attr' : {'placeholder': "Titre de la figure"}}) }} {{ form_row(formTrick.description, {'attr' : {'placeholder': "Description de la figure"}}) }} {{ form_row(formTrick.slug, {'attr' : {'placeholder': "Slug"}}) }} {{ form_row(formTrick.category,
-    {'attr' : {'placeholder': "Groupe de la figure"}}) }}
+    <button type="submit" class="btn btn-success btn-lg col-12"><i class="fas fa-check"></i> Créer le nouveau trick
+        !</button> {{ form_end(formTrick) }}
 </div>
-<button type="submit" class="btn btn-success">
-    {% if editMode %}
-    Enregistrer les modifications
-    {% else %}
-    Ajouter la figure
-    {% endif %}
-</button> {{ form_end(formTrick) }} {% endblock %}
+{% endblock %} {% block javascripts %} {{ parent() }} {% endblock %}

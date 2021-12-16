@@ -1,0 +1,17 @@
+[33mcommit 437b1a71c44ce4225d5ee8896f22022c5973e99b[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/entities[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/feature/tricksmanager[m[33m, [m[1;31morigin/feature/entities[m[33m, [m[1;32mstatus[m[33m, [m[1;32mmaster[m[33m, [m[1;32mcheckout[m[33m)[m
+Author: Ednilson MENDES <ednilsonmendes@outlook.com>
+Date:   Mon Dec 6 22:11:29 2021 +0100
+
+    ok
+
+[33mcommit d22df389fc5dd91976f058fe0fcf04266797b9f3[m
+Author: Ednilson MENDES <ednilsonmendes@outlook.com>
+Date:   Mon Dec 6 22:07:44 2021 +0100
+
+    Ajout des Entités User, Comment, Category
+
+[33mcommit efe3972090728d0f0571d03e04fa90981bf09a64[m
+Author: Ednilson MENDES <ednilsonmendes@outlook.com>
+Date:   Mon Dec 6 16:16:33 2021 +0100
+
+    Création de l'entité "Trick"
