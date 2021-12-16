@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les catégories
+{% endblock %}
+
+{% block body %}
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="pt10 pb10">
+				<h2>Les catégories</h2>
+			</div>
+			<p>Ajouter une nouvelle
+				<a href="{{ path('category_create') }}">catégorie</a>
+			</p>
+			<section class="">
+				{% for category in categories %}
+					<div class="row mx-auto">
+						<div class="col-md-10 col-12 mx-auto row">
+							<div class="col-lg-4 col-4"> {{ category.title }}
+							</div>
+							<p class="col-lg-8 col-8 bg-light"> {{ category.description }}
+							</p>
+						</div>
+						{% if app.user %}
+							<div class="operations">
+								<a href="{{ path('category_edit', {'id': category.id}) }}">
+									<i class="fas fa-pencil-alt">
+										modifier
+									</i>
+								</a>
+							</div>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</section>
+			<p>Créer un
+				<a href="{{ path('trick_create') }}">Trick</a>
+			</p>
+		</div>
+	</div>
+{% endblock %}
