@@ -2,14 +2,25 @@
 
 namespace App\Entity;
 
-use App\Repository\TrickRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TrickRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *  fields={"title"},
+ *  message="Un trick possède déjà ce nom, merci de le modifier"
+ * )
+ * @UniqueEntity(
+ *  fields={"slug"},
+ *  message="Un trick possède déjà ce slug"
+ * )
  */
 class Trick
 {
@@ -22,7 +33,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, max=255, minMessage="Le titre doit avoir minimum 10 caratères !")
+     * @Assert\Length(min=4, max=255, minMessage="Le titre doit avoir minimum 10 caratères !")
      */
     private $title;
 
@@ -34,7 +45,6 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10)
      */
     private $slug;
 
@@ -93,6 +103,14 @@ class Trick
         return $this->id;
     }
 
+    //...
+
+    /* public function __toString()
+    {
+        return $this->title;
+    } */
+
+    // ...
     public function getTitle(): ?string
     {
         return $this->title;
@@ -127,6 +145,20 @@ class Trick
         $this->slug = $slug;
 
         return $this;
+    }
+
+    /**
+     * Initialisation du slug avant un persist ou un update
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->title);
+        }
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
