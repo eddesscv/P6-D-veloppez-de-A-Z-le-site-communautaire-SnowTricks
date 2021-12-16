@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories - {{ category.title }}
+{% endblock %}
+
+{% block body %}
+	<div class="panel panel-default">
+		<div id="categoryTitle" class="text-center">
+			<h1>{{ category.title }}</h1>
+		</div>
+		{% if app.user %}
+			<div class="operations">
+				<a href="{{ path('category_edit', {'id': category.id}) }}">
+					<i class="fas fa-pencil-alt">
+						modifier
+					</i>
+				</a>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
