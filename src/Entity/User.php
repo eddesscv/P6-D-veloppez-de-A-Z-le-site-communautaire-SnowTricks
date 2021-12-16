@@ -2,15 +2,27 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * * @UniqueEntity(
+ *  fields={"username"},
+ *  message="Ce nom d'utilisateur est déjà utilisé"
+ * )
+ * @UniqueEntity(
+ *  fields={"email"},
+ *  message="Cet email est déjà utilisé"
+ * )
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -21,33 +33,59 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner un nom d'utilisateur")
+     * @Assert\Length(max=45, maxMessage="Votre nom d'utilisateur ne doit pas dépasser 45 caractères")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Veuillez renseigner un email valide")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner votre prénom")
+     * @Assert\Length(max=20, maxMessage="Votre prénom ne doit pas dépasser 20 caractères")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Veuillez renseigner votre nom")
+     * @Assert\Length(max=20, maxMessage="Votre nom ne doit pas dépasser 20 caractères")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe faire minimum 8 caractères!")
      */
     private $password;
 
     /**
+     * @Assert\EqualTo(propertyPath="password", message="La confirmation et le mot de passe ne correspondent pas !")
+     */
+    private $passwordConfirm;
+
+
+    /**
+     * @Assert\Image(
+     *  mimeTypes= {"image/jpeg", "image/jpg", "image/png"},
+     *  mimeTypesMessage = "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png")
+     */
+    private $file;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image;
+    private $imagePath;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $imageName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -69,9 +107,16 @@ class User
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")
+     */
+    private $tricks;
+
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->tricks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,14 +184,50 @@ class User
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getPasswordConfirm(): ?string
     {
-        return $this->image;
+        return $this->passwordConfirm;
     }
 
-    public function setImage(string $image): self
+    public function setPasswordConfirm(string $passwordConfirm): self
     {
-        $this->image = $image;
+        $this->passwordConfirm = $passwordConfirm;
+
+        return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(string $imagePath): self
+    {
+        $this->imagePath = $imagePath;
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName): self
+    {
+        $this->imageName = $imageName;
 
         return $this;
     }
@@ -187,6 +268,8 @@ class User
         return $this;
     }
 
+
+
     /**
      * @return Collection|Comment[]
      */
@@ -215,5 +298,48 @@ class User
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Trick[]
+     */
+    public function getTricks(): Collection
+    {
+        return $this->tricks;
+    }
+
+    public function addTrick(Trick $trick): self
+    {
+        if (!$this->tricks->contains($trick)) {
+            $this->tricks[] = $trick;
+            $trick->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrick(Trick $trick): self
+    {
+        if ($this->tricks->removeElement($trick)) {
+            // set the owning side to null (unless already changed)
+            if ($trick->getUser() === $this) {
+                $trick->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getSalt()
+    {
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
     }
 }
