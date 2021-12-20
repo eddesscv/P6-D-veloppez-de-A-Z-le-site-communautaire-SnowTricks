@@ -1,34 +1,74 @@
-<!-- Footer -->
-<div class="container">
-    <footer class="footer bg-light row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-            <ul class="list-inline text-center">
-                <li class="list-inline-item">
-                    <a href="https://twitter.com/eddess" target="_blank">
-                        <span class="fa-stack fa-lg">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="https://www.facebook.com/eddess" target="_blank">
-                        <span class="fa-stack fa-lg">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="https://github.com/eddess" target="_blank">
-                        <span class="fa-stack fa-lg">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-            <p class="copyright text-muted text-center">Copyright © eddess.fr/snowtricks 2021/2022</p>
-        </div>
-    </footer>
+<!-- Partenaires-->
+<div class="bg-light">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-2 col-sm-12 my-3 text-center">
+				<h6>Nos partenaires:
+				</h6>
+			</div>
+			<div class="col-md-2 col-sm-3 my-3">
+				<a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="/img/partners/partner5.png" alt="Logo partner 5"/></a>
+			</div>
+			<div class="col-md-2 col-sm-3 my-3">
+				<a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="/img/partners/partner2.png" alt="Logo parner 2"/></a>
+			</div>
+			<div class="col-md-2 col-sm-3 my-3">
+				<a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="/img/partners/partner3.png" alt="Logo partner 3"/></a>
+			</div>
+			<div class="col-md-2 col-sm-3 my-3">
+				<a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="/img/partners/partner7.png" alt="Logo partner 7"/></a>
+			</div>
+		</div>
+	</div>
 </div>
+<!-- Footer-->
+<footer class="footer py-4">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-4 text-lg-start">Copyright &copy; SnowTricks 2021.</div>
+			<div class="col-lg-4 my-3 my-lg-0">
+				<a class="btn btn-dark btn-social mx-2" href="#">
+					<i class="fab fa-twitter"></i>
+				</a>
+				<a class="btn btn-dark btn-social mx-2" href="#">
+					<i class="fab fa-github"></i>
+				</a>
+				<a class="btn btn-dark btn-social mx-2" href="#">
+					<i class="fab fa-linkedin-in"></i>
+				</a>
+			</div>
+			<div class="col-lg-4 text-lg-end">
+				<a class="link-dark text-decoration-none me-3" href="#">Mentions légales</a>
+				<a class="link-dark text-decoration-none" href="#">CGU</a>
+			</div>
+		</div>
+	</div>
+
+</footer>
+
+<!-- Menu en format Mobile -->
+<ul class="menu-mobile">
+	<li class="">
+		<a class="" href="{{ path('home')}}">
+			<i class="fas fa-home"></i>
+		</a>
+	</li>
+	<li class="">
+		<a class="" href="{{ path('trick')}}">
+			<i class="fas fa-snowboarding"></i>
+		</a>
+	</li>
+	{% if app.user %}
+		<li class="">
+			<a class="" href="{{ path('account_logout') }}">
+				<i class="fas fa-sign-out-alt"></i>
+			</a>
+		</li>
+	{% else %}
+		<li class="">
+			<a class="" href="{{ path('account_login') }}">
+				<i class="fas fa-sign-in-alt"></i>
+			</a>
+		</li>
+	{% endif %}
+</ul>

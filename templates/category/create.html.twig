@@ -1,35 +1,30 @@
-{# {% extends 'base.html.twig' %}
-
-{% block title %}Création d'une catégorie
-{% endblock %}
-
-{% block body %}
-	<div class="panel panel-default">
-		<div class="panel-body-newTrick">
-			<h2>Création d'une catégorie</h2> {{ form_start(formCategory) }} {{ form_row(formCategory.title) }} {{ form_row(formCategory.description) }}
-
-			<div class="pt10 pb10">
-				<button type="submit" class="btn btn-primary">Enregistrer</button>
-			</div> {{ form_end(formCategory) }}
-		</div>
-	</div>
-{% endblock %}
- #}
-
 {% extends "base.html.twig" %}
-{% form_theme formCategory 'bootstrap_4_layout.html.twig' %}
-{% block body %}
-	{% if editMode %}
-		<h1>Modification de la catégorie !</h1>
-	{% else %}
-		<h1>Création d'une catégorie !</h1>
-	{% endif %} {{ form_start(formCategory) }} {{ form_start(formCategory) }} {{ form_row(formCategory.title) }} {{ form_row(formCategory.description) }}
 
-	<button type="submit" class="btn btn-success">
-		{% if editMode %}
-			Enregistrer les modifications
-		{% else %}
-			Ajouter la catégorie
-		{% endif %}
-	</button> {{ form_end(formCategory) }}
+{% block title %}SnowTricks - Créer un trick
+{% endblock %}
+
+{% form_theme formCategory 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+	<section class="page-section">
+		<div class="container py-5 mt-5">
+			<div class="text-center">
+				{% if editMode %}
+					<h2 class="section-heading text-uppercase">Modification de la catégorie !</h1>
+				{% else %}
+					<h2 class="section-heading text-uppercase">Création d'une catégorie !</h1>
+				{% endif %}
+			</div>
+			<div class="container col-lg-7 col-md-10 mx-auto"> {{ form_start(formCategory) }} {{ form_start(formCategory) }} {{ form_row(formCategory.title) }} {{ form_row(formCategory.description) }}
+
+				<button type="submit" class="btn btn-lg col-12 btn-primary btn-xl text-uppercas">
+					{% if editMode %}
+						Enregistrer les modifications
+					{% else %}
+						Ajouter la catégorie
+					{% endif %}
+				</button> {{ form_end(formCategory) }}
+			</div>
+		</div>
+	</section>
 {% endblock %}

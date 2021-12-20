@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\VideoRepository;
+use App\Entity\Trick;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\VideoRepository;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)

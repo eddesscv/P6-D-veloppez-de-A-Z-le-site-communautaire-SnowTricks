@@ -59,7 +59,7 @@ iframe.src = embedlink;
 		<div class="row text-center col-11 mx-auto my-2 bg-light" id="infos">
 			<p class="col">Publié le {{ trick.createdAt | date('d/m/Y') }}
 				à {{ trick.createdAt | date('H:i') }}
-				par {{ trick.user.firstName }}{{ trick.user.lastName }}</p>
+				par {{ trick.user.firstName }} {{ trick.user.lastName }}</p>
 			<p class="col">Mis à jour le {{ trick.updatedAt | date('d/m/Y') }}
 				à {{ trick.updatedAt | date('H:i') }}</p>
 			<p class="col">Catégorie : {{ trick.category.title }}</p>
@@ -92,7 +92,7 @@ iframe.src = embedlink;
 						<img src="{{ asset(comment.user.imagePath ~ '/' ~ comment.user.imageName) }}" class="avatar avatar-medium" alt="comment.user.username">
 					</div>
 					<p class="col-lg-10 col-8 bg-light">
-						<strong>{{ comment.user.username }}</strong>
+						<strong>{{ trick.user.firstName }} {{ trick.user.lastName }}</strong>
 						<small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
 						<br>{{ comment.content }}
 					</p>
