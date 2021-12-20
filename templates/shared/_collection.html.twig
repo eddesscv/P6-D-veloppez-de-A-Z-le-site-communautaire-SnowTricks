@@ -4,7 +4,7 @@
 	<input type="hidden" id="widgets-counter-image" value="0">
 
 	<div class="form-group">
-		<button type="button" id="add-image" class="btn btn-info">Ajouter une image</button>
+		<button type="button" id="add-image" class="btn btn-dark">Ajouter une image</button>
 	</div>
 {% endblock %}
 
@@ -19,7 +19,9 @@
 			<div class="col-md-5"> {{ form_widget(form.alt)}}
 			</div>
 			<div class="col-md-2">
-				<button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger col-sm-12">X</button>
+				<button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">
+					<i class="fas fa-trash-alt"></i>
+				</button>
 			</div>
 		</div>
 	</div>
@@ -31,7 +33,7 @@
 	<input type="hidden" id="widgets-counter-video" value="0">
 
 	<div class="form-group">
-		<button type="button" id="add-video" class="btn btn-info">Ajouter une vidéo</button>
+		<button type="button" id="add-video" class="btn btn-dark">Ajouter une vidéo</button>
 	</div>
 {% endblock %}
 
@@ -44,7 +46,9 @@
 			<div class="col-10"> {{ form_widget(form.url) }}
 			</div>
 			<div class="col-2">
-				<button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">X</button>
+				<button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">
+					<i class="fas fa-trash-alt"></i>
+				</button>
 			</div>
 		</div>
 	</div>

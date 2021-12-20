@@ -6,25 +6,32 @@
 {% form_theme form 'shared/_collection.html.twig' %}
 
 {% block body %}
-	<div class="col-lg-7 col-md-10 mx-auto">
-		<h1>Créer un nouveau trick</h1> {{ form_start(form) }} {{ form_row(form.title) }} {{ form_row(form.description) }} {{ form_row(form.category) }}
-		<p>
-			<a href="{{ path('category_create') }}">Ajouter une nouvelle catégorie</a>
-		</p>
-
-		<div class="form-group"> {{ form_label(form.mainImage) }}
-			<div class="row">
-				<div class="col-sm-6"> {{ form_errors(form.mainImage.file) }} {{ form_widget(form.mainImage.file) }} {{ form_help(form.mainImage.file) }}
-				</div>
-				<div class="col-sm-6"> {{ form_errors(form.mainImage.alt) }} {{ form_widget(form.mainImage.alt) }} {{ form_help(form.mainImage.alt) }}
-				</div>
+	<section class="page-section">
+		<div class="container py-5 mt-5">
+			<div class="text-center">
+				<h2 class="section-heading text-uppercase">Créer un nouveau trick</h2>
+				<h3 class="section-subheading">Merci de contribuer dans notre communaute!</h3>
 			</div>
-		</div> {{ form_row(form.images) }} {{ form_row(form.videos) }}
+			<div class="container col-lg-7 col-md-10 mx-auto"> {{ form_start(form) }} {{ form_row(form.title) }} {{ form_row(form.description) }} {{ form_row(form.category) }}
+				<p>
+					<a href="{{ path('category_create') }}">Ajouter une nouvelle catégorie</a>
+				</p>
 
-		<button type="submit" class="btn btn-success btn-lg col-12">
-			<i class="fas fa-check"></i>
-			Créer le nouveau trick !</button> {{ form_end(form) }}
-	</div>
+				<div class="form-group"> {{ form_label(form.mainImage) }}
+					<div class="row">
+						<div class="col-sm-6"> {{ form_errors(form.mainImage.file) }} {{ form_widget(form.mainImage.file) }} {{ form_help(form.mainImage.file) }}
+						</div>
+						<div class="col-sm-6"> {{ form_errors(form.mainImage.alt) }} {{ form_widget(form.mainImage.alt) }} {{ form_help(form.mainImage.alt) }}
+						</div>
+					</div>
+				</div> {{ form_row(form.images) }} {{ form_row(form.videos) }}
+
+				<button type="submit" class="btn btn-lg col-12 btn-primary btn-xl text-uppercase">
+					<i class="fas fa-check"></i>
+					Créer le nouveau trick !</button> {{ form_end(form) }}
+			</div>
+		</div>
+	</section>
 {% endblock %}
 
 {% block javascripts %} {{ parent() }} {{ encore_entry_script_tags('trick-form') }}

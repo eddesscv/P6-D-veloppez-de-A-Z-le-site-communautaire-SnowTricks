@@ -1,1 +1,7 @@
+/* Custom style */
+
 @import url('./style.css');
+
+/* Core theme CSS (includes Bootstrap) */
+
+@import url('./styles.css');

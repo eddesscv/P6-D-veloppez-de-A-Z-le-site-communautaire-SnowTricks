@@ -33,7 +33,7 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=4, max=255, minMessage="Le titre doit avoir minimum 10 caratères !")
+     * @Assert\Length(min=3, max=255, minMessage="Le titre doit avoir minimum 3 caratères !")
      */
     private $title;
 

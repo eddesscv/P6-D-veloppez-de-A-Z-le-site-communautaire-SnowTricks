@@ -1,5 +1,5 @@
 function handleDeleteButton() {
-    $("button[data-action='delete']").click(function(){
+    $("button[data-action='delete']").click(function() {
         const target = this.dataset.target;
         $(target).remove();
     });
@@ -13,13 +13,15 @@ function updateCounter() {
     $("#widgets-counter-video").val(countVideo);
 }
 
-$("#add-image").click(function(){
+$("#add-image").click(function() {
     // Recuperation du numero des futurs champs que je vais créer
     const index = +$("#widgets-counter-image").val();
 
     // Recuperation du prototype des entrées
     // AddEventListener sur le click etc...
-    const tmpl = $("#trick_images").data("prototype").replace(/__name__/g, index);
+    const tmpl = $("#trick_images")
+        .data("prototype")
+        .replace(/__name__/g, index);
 
     // Injection du code du prototype au sein de la div
     $("#trick_images").append(tmpl);
@@ -33,13 +35,15 @@ $("#add-image").click(function(){
     handleDeleteButton();
 });
 
-$("#add-video").click(function(){
+$("#add-video").click(function() {
     // Recuperation du numero des futurs champs que je vais créer
     const index = +$("#widgets-counter-video").val();
 
     // Recuperation du prototype des entrées
     // AddEventListener sur le click etc...
-    const tmpl = $("#trick_videos").data("prototype").replace(/__name__/g, index);
+    const tmpl = $("#trick_videos")
+        .data("prototype")
+        .replace(/__name__/g, index);
 
     // Injection du code du prototype au sein de la div
     $("#trick_videos").append(tmpl);

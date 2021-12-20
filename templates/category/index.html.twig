@@ -4,38 +4,38 @@
 {% endblock %}
 
 {% block body %}
-	<div class="panel panel-default">
-		<div class="panel-body">
-			<div class="pt10 pb10">
-				<h2>Les catégories</h2>
+	<section class="page-section">
+		<div class="container py-5 mt-5">
+			<div class="text-center">
+				<h2 class="section-heading text-uppercase">Les catégories</h2>
+				<h3 class="section-subheading">Ajouter une nouvelle
+					<a href="{{ path('category_create') }}">catégorie</a>
+				</h3>
 			</div>
-			<p>Ajouter une nouvelle
-				<a href="{{ path('category_create') }}">catégorie</a>
-			</p>
-			<section class="">
+			<section class="container col-lg-8 col-md-10 mx-auto">
 				{% for category in categories %}
-					<div class="row mx-auto">
+					<div class="row">
 						<div class="col-md-10 col-12 mx-auto row">
 							<div class="col-lg-4 col-4"> {{ category.title }}
 							</div>
-							<p class="col-lg-8 col-8 bg-light"> {{ category.description }}
+							<p class="col-lg-6 col-6"> {{ category.description }}
 							</p>
 						</div>
 						{% if app.user %}
-							<div class="operations">
+							<p class="operations">
 								<a href="{{ path('category_edit', {'id': category.id}) }}">
-									<i class="fas fa-pencil-alt">
-										modifier
-									</i>
+									<i class="fas fa-pencil-alt"></i>
 								</a>
-							</div>
+							</p>
 						{% endif %}
 					</div>
 				{% endfor %}
 			</section>
-			<p>Créer un
-				<a href="{{ path('trick_create') }}">Trick</a>
-			</p>
+			<div class="text-center">
+				<h3 class="section-subheading">Créer un
+					<a href="{{ path('trick_create') }}">Trick</a>
+				</h3>
+			</div>
 		</div>
-	</div>
+	</section>
 {% endblock %}
