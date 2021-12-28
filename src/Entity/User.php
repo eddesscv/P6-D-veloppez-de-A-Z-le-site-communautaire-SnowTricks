@@ -2,26 +2,24 @@
 
 namespace App\Entity;
 
+use App\Entity\Trick;
+use App\Entity\Comment;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\EqualTo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(
- *  fields={"username"},
- *  message="Ce nom d'utilisateur est déjà utilisé"
- * )
- * @UniqueEntity(
- *  fields={"email"},
- *  message="Cet email est déjà utilisé"
- * )
+ * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"username"}, message="Il existe déjà un compte avec ce nom d'utilisateur")
+ * @UniqueEntity(fields={"email"}, message="Il existe déjà un compte avec cet adresse email")
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -31,35 +29,18 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez renseigner un nom d'utilisateur")
-     * @Assert\Length(max=45, maxMessage="Votre nom d'utilisateur ne doit pas dépasser 45 caractères")
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Email(message="Veuillez renseigner un email valide")
+     * @ORM\Column(type="json")
      */
-    private $email;
+    private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez renseigner votre prénom")
-     * @Assert\Length(max=20, maxMessage="Votre prénom ne doit pas dépasser 20 caractères")
-     */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez renseigner votre nom")
-     * @Assert\Length(max=20, maxMessage="Votre nom ne doit pas dépasser 20 caractères")
-     */
-    private $lastName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="8", minMessage="Votre mot de passe faire minimum 8 caractères!")
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
     private $password;
 
@@ -68,6 +49,20 @@ class User implements UserInterface
      */
     private $passwordConfirm;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lastName;
 
     /**
      * @Assert\Image(
@@ -87,45 +82,37 @@ class User implements UserInterface
     private $imageName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $token;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $activated;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\Column(type="boolean")
      */
-    private $comments;
+    private $isVerified = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="user", orphanRemoval=true)
      */
     private $tricks;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", orphanRemoval=true)
+     */
+    private $comments;
 
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-        $this->tricks = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
     {
-        return $this->username;
+        return (string) $this->username;
     }
 
     public function setUsername(string $username): self
@@ -133,6 +120,145 @@ class User implements UserInterface
         $this->username = $username;
 
         return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPasswordConfirm(): ?string
+    {
+        return $this->passwordConfirm;
+    }
+
+
+    public function setPasswordConfirm(string $passwordConfirm): self
+    {
+        $this->passwordConfirm = $passwordConfirm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Trick[]
+     */
+    public function getTricks(): Collection
+    {
+        return $this->tricks;
+    }
+
+    public function addTrick(Trick $trick): self
+    {
+        if (!$this->tricks->contains($trick)) {
+            $this->tricks[] = $trick;
+            $trick->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrick(Trick $trick): self
+    {
+        if ($this->tricks->contains($trick)) {
+            $this->tricks->removeElement($trick);
+            // set the owning side to null (unless already changed)
+            if ($trick->getUser() === $this) {
+                $trick->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
     public function getEmail(): ?string
@@ -167,30 +293,6 @@ class User implements UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getPasswordConfirm(): ?string
-    {
-        return $this->passwordConfirm;
-    }
-
-    public function setPasswordConfirm(string $passwordConfirm): self
-    {
-        $this->passwordConfirm = $passwordConfirm;
 
         return $this;
     }
@@ -231,30 +333,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(?string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    public function getActivated(): ?bool
-    {
-        return $this->activated;
-    }
-
-    public function setActivated(bool $activated): self
-    {
-        $this->activated = $activated;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -267,78 +345,15 @@ class User implements UserInterface
         return $this;
     }
 
-
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
+    public function isVerified(): bool
     {
-        return $this->comments;
+        return $this->isVerified;
     }
 
-    public function addComment(Comment $comment): self
+    public function setIsVerified(bool $isVerified): self
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setUser($this);
-        }
+        $this->isVerified = $isVerified;
 
         return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getUser() === $this) {
-                $comment->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Trick[]
-     */
-    public function getTricks(): Collection
-    {
-        return $this->tricks;
-    }
-
-    public function addTrick(Trick $trick): self
-    {
-        if (!$this->tricks->contains($trick)) {
-            $this->tricks[] = $trick;
-            $trick->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTrick(Trick $trick): self
-    {
-        if ($this->tricks->removeElement($trick)) {
-            // set the owning side to null (unless already changed)
-            if ($trick->getUser() === $this) {
-                $trick->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    public function getSalt()
-    {
-    }
-
-    public function getRoles()
-    {
-        return ['ROLE_USER'];
     }
 }

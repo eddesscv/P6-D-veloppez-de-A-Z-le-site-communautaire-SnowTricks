@@ -712,3 +712,15 @@ section#booking form#bookingForm :-ms-input-placeholder {
         margin-bottom: 50px
     }
 }
+
+
+/* Card layout form */
+
+.card-layout {
+    -webkit-box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+    padding: 24px;
+    border-radius: 8px;
+    margin: 0 auto;
+    background: #fff;
+}

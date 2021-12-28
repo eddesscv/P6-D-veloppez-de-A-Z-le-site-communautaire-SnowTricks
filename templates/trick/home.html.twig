@@ -32,4 +32,86 @@
 		</div>
 	</section>
 
+
+	<!-- Tricks listing -->
+	<!-- Portfolio / Programmation Grid-->
+	<section class="page-section bg-lightx" id="portfolio">
+		<div class="container ">
+			<div class="text-center">
+				<h2 class="section-heading-programmation text-uppercase">Les tricks</h2>
+			</div>
+			<div class="row">
+				{% for trick in tricks %}
+					<div class="col-lg-3 col-sm-6 mb-4 mb-lg-4">
+						<div class="portfolio-item">
+							<a class="portfolio-link" href="{{ path('trick_show', {'slug': trick.slug}) }}">
+								<div class="portfolio-hover">
+									<div class="portfolio-hover-content text-center">
+										<i class="fas fa-ellipsis-h fa-3x"></i>
+										<br/></div>
+								</div>
+								<img src="{{ asset(trick.mainImage.pathThumbnail ~ '/' ~ trick.mainImage.title) }}" class="card-img-top" alt="{{ trick.mainImage.alt }}">
+							</a>
+							<div class="portfolio-caption ">
+								<div class="portfolio-caption-heading text-uppercase mb-4">{{ trick.title }}</div>
+
+								<hr class="my-4 mx-auto text-muted"/>
+								<div class="d-flex justify-content-between">
+									<h6 class="portfolio-caption-subheading text-muted text-md-start col-md-6">{{ trick.category.title }}</h6>
+									{% if app.user %}
+										<div class="operations">
+											<a href="{{ path('trick_edit', {'slug': trick.slug}) }}">
+												<i class="fas fa-pencil-alt"></i>
+											</a>
+											<a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Êtes-vous sûr de vouloir supprimer le trick : {{trick.title}} ?`)">
+												<i class="fas fa-trash-alt"></i>
+											</a>
+										</div>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<div class="row">
+				<div class="col-12 text-center">
+					<button id="loadMoreTricks" class="btn btn-primary">Voir plus de tricks</button>
+				</div>
+			</div>
+			<a href="#tricks">
+				<i id="arrow-up" class="fas fa-arrow-up fa-3x float-right"></i>
+			</a>
+		</div>
+	</section>
+{% endblock %}
+{% block javascripts %} {{ parent() }}<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+		$("#arrow-up").hide();
+click = 0;
+function loadMoreTricks(event) {
+event.preventDefault();
+click ++;
+var start = 15 * click;
+const url = "{{ path('loadMoreTricks') }}" + start;
+
+axios.get(url).then(function (response) {
+console.log(response);
+$("#trickList").append(response.data);
+$("#arrow-up").show();
+}).catch(function (error) {
+if (response.status === 403) {
+window.alert("Vous n'êtes pas autorisé à effectuer cette action !");
+} else if (response.status === 404) {
+window.alert("La page appelé n'existe pas");
+} else {
+window.alert("Une erreur est survenue !");
+}
+});
+}
+
+document.getElementById("loadMoreTricks").addEventListener("click", loadMoreTricks);
+	</script>
+
+
 {% endblock %}

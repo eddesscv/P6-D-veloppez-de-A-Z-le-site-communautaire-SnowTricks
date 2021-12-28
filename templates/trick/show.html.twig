@@ -29,19 +29,8 @@
 		{% endfor %}
 		{% for video in trick.videos %}
 			<div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark">
-				<iframe id="video{{ video.id }}" width="100%" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<iframe width="560" height="315" src="{{ video.url|raw }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			</div>
-			<script>
-				var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-var url = "{{ video.url }}";
-var match = url.match(regExp);
-if (match && match[2].length == 11) {
-var id = match[2];
-var embedlink = "http://www.youtube.com/embed/" + id;
-var iframe = document.getElementById("video {{ video.id }}");
-iframe.src = embedlink;
-}
-			</script>
 		{% endfor %}
 	</div>
 
@@ -71,12 +60,12 @@ iframe.src = embedlink;
 	<div class="row text-center">
 		{% if app.user %}
 			<div class="col-sm-10 col-md-8 mx-auto"> {{ form_start(form) }} {{ form_widget(form) }}
-				<button type="submit" class="btn btn-success col-sm-s8 mx-auto">Laisser un commentaire</button> {{ form_end(form) }}
+				<button type="submit" class="btn btn-success col-sm-s8 mx-auto">Ajouter</button> {{ form_end(form) }}
 			</div>
 		{% else %}
 			<div class="col-sm-10 col-md-8 mx-auto">
-				<h6 class="text-info">Veuillez vous
-					<a href="{{ path('account_login') }}" class="text-warning">connecter</a>
+				<h6>Veuillez vous
+					<a href="{{ path('account_login') }}" class="text-dark">connecter</a>
 					pour laisser un commentaire</h6>
 			</div>
 		{% endif %}
@@ -101,7 +90,7 @@ iframe.src = embedlink;
 		{% endfor %}
 	</section>
 	<div class="row text-center">
-		<button id="loadMoreComments" class="btn btn-primary col-md-6 col-8 mx-auto">Voir plus de commentaires</button>
+		<button id="loadMoreComments" class="btn btn-primary col-md-6 col-8 mx-auto mb-5">Voir plus de commentaires</button>
 	</div>
 
 	<!-- The Modal/Lightbox -->

@@ -8,9 +8,11 @@ function handleDeleteButton() {
 function updateCounter() {
     const count = +$("#trick_images div.form-group").length;
     const countVideo = +$("#trick_videos div.form-group").length;
+    const countCategory = +$("#trick_category div.form-group").length;
 
     $("#widgets-counter-image").val(count);
     $("#widgets-counter-video").val(countVideo);
+    $("#widgets-counter-category").val(countCategory);
 }
 
 $("#add-image").click(function() {
@@ -49,6 +51,28 @@ $("#add-video").click(function() {
     $("#trick_videos").append(tmpl);
 
     $("#widgets-counter-video").val(index + 1);
+
+    // Gestion du bouton Supprimer
+    handleDeleteButton();
+});
+
+$("#add-category").click(function() {
+    // Recuperation du numero des futurs champs que je vais créer
+    const index = +$("#widgets-counter-category").val();
+
+    // Recuperation du prototype des entrées
+    // AddEventListener sur le click etc...
+    const tmpl = $("#trick_category")
+        .data("prototype")
+        .replace(/__name__/g, index);
+
+    // Injection du code du prototype au sein de la div
+    $("#trick_category").append(tmpl);
+
+    // On gére le "placehold" de fichier lorsqu'un fichier est uploadé
+    bsCustomFileInput.init();
+
+    $("#widgets-counter-category").val(index + 1);
 
     // Gestion du bouton Supprimer
     handleDeleteButton();
