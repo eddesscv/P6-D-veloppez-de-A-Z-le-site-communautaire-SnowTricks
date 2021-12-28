@@ -60,7 +60,6 @@ class Trick
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
@@ -71,6 +70,7 @@ class Trick
 
     /**
      * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $images;
 

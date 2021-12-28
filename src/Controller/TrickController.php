@@ -22,30 +22,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TrickController extends AbstractController
 {
     /**
-     * @Route("/trick", name="trick")
+     * @Route("/", name="home")
      */
-    public function index(TrickRepository $repo): Response
+    public function home(TrickRepository $repo): Response
     {
 
         $tricks = $repo->findAll();
 
-        return $this->render('trick/index.html.twig', [
+        return $this->render('trick/home.html.twig', [
             'controller_name' => 'TrickController',
-            'tricks' => $tricks
+            'tricks' => $tricks,
+            'title' => "Bienvenue sur SnowTricks !"
         ]);
     }
 
-    /**
-     *
-     * @Route("/", name="home")
-     */
-    public function home()
-    {
-        return $this->render('trick/home.html.twig', [
-            'title' => "Bienvenue sur SnowTricks !",
-            'age' => 31
-        ]);
-    }
 
     /**
      * Get the 15 next tricks in the database and create a Twig file with them that will be displayed via Javascript
@@ -185,9 +175,7 @@ class TrickController extends AbstractController
                 'Votre commentaire a bien été enregistré !'
             );
 
-            return $this->redirectToRoute('trick_show', [
-                'slug' => $trick->getSlug()
-            ]);
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('trick/show.html.twig', [
