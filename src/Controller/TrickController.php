@@ -22,7 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TrickController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="home", defaults={"_fragment" = "portfolio"})
      */
     public function home(TrickRepository $repo): Response
     {
@@ -138,9 +138,10 @@ class TrickController extends AbstractController
                 'Le trick <strong>' . $trick->getTitle() . '</strong> a bien été enregistré !'
             );
 
-            return $this->redirectToRoute('trick_show', [
+            /* return $this->redirectToRoute('trick_show', [
                 'slug' => $trick->getSlug()
-            ]);
+            ]); */
+            return $this->redirectToRoute('home', ['_fragment' => 'portfolio']);
         }
 
         return $this->render('trick/create.html.twig', [
@@ -175,7 +176,7 @@ class TrickController extends AbstractController
                 'Votre commentaire a bien été enregistré !'
             );
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
         return $this->render('trick/show.html.twig', [

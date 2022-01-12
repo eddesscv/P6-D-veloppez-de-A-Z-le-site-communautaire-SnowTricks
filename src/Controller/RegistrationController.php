@@ -62,7 +62,7 @@ class RegistrationController extends AbstractController
                 'app_verify_email',
                 $user,
                 (new TemplatedEmail())
-                    ->from(new Address('eddess02@hotmail.com', 'SnowTricks Sign-up Confirmation'))
+                    ->from(new Address('snowtricks_2021@hotmail.com', 'SnowTricks Sign-up Confirmation'))
                     ->to($user->getEmail())
                     ->subject('Veuillez confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
