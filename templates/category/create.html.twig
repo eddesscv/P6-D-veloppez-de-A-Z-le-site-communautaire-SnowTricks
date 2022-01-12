@@ -6,25 +6,23 @@
 {% form_theme formCategory 'bootstrap_4_layout.html.twig' %}
 
 {% block body %}
-	<section class="page-section">
-		<div class="container py-5 mt-5">
-			<div class="text-center">
-				{% if editMode %}
-					<h2 class="section-heading text-uppercase">Modification de la catégorie !</h1>
-				{% else %}
-					<h2 class="section-heading text-uppercase">Création d'une catégorie !</h1>
-				{% endif %}
-			</div>
-			<div class="container col-lg-7 col-md-10 mx-auto"> {{ form_start(formCategory) }} {{ form_start(formCategory) }} {{ form_row(formCategory.title) }} {{ form_row(formCategory.description) }}
-
-				<button type="submit" class="btn btn-lg col-12 btn-primary btn-xl text-uppercas">
-					{% if editMode %}
-						Enregistrer les modifications
-					{% else %}
-						Ajouter la catégorie
-					{% endif %}
-				</button> {{ form_end(formCategory) }}
-			</div>
+	<div class="container py-5 mt-5">
+		<div class="text-center">
+			{% if editMode %}
+				<h2 class="section-heading text-uppercase">Modification de la catégorie !</h2>
+			{% else %}
+				<h2 class="section-heading text-uppercase">Création d'une catégorie !</h2>
+			{% endif %}
 		</div>
-	</section>
-{% endblock %}
+		<div class="container col-lg-7 col-md-10 mx-auto"> {{ form_start(formCategory) }} {{ form_row(formCategory.title) }} {{ form_row(formCategory.description) }}
+
+			<button type="submit" class="btn btn-lg col-12 btn-primary btn-xl text-uppercase mt-2" id="create-category">
+				{% if editMode %}
+					Enregistrer les modifications
+				{% else %}
+					Ajouter la catégorie
+				{% endif %}
+			</button> {{ form_end(formCategory) }}
+		</div>
+	</div>
+</section>{% endblock %}

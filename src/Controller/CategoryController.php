@@ -36,6 +36,7 @@ class CategoryController extends AbstractController
      */
     public function categoryForm(Category $category = null, Request $request, EntityManagerInterface $manager)
     {
+
         if (!$category) {
             $category = new Category();
         }
@@ -44,6 +45,7 @@ class CategoryController extends AbstractController
 
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $manager->persist($category);
@@ -51,7 +53,7 @@ class CategoryController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'La catégorie <strong>' . $category->getTitle() . '</strong> a bien été modifié !'
+                'La catégorie <strong>' . $category->getTitle() . '</strong> a bien été créé !'
             );
 
             /* return $this->redirectToRoute('category_show', ['id' => $category->getId()]); */

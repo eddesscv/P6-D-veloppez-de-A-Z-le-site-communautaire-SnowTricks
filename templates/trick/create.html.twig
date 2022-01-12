@@ -12,11 +12,10 @@
 				<h2 class="section-heading text-uppercase">Créer un nouveau trick</h2>
 				<h3 class="section-subheading">Merci de contribuer dans notre communaute!</h3>
 			</div>
-			<div class="container col-lg-7 col-md-10 mx-auto"> {{ form_start(form) }} {{ form_row(form.title) }} {{ form_row(form.description) }} {{ form_row(form.category) }}
+			<div class="container col-lg-7 col-md-10 mx-auto"> {{ form_start(form) }} {{ form_row(form.category) }}
 				<p>
 					<a href="{{ path('category_create') }}">Ajouter une nouvelle catégorie</a>
-				</p>
-
+				</p> {{ form_row(form.title) }} {{ form_row(form.description) }}
 				<div class="form-group"> {{ form_label(form.mainImage) }}
 					<div class="row">
 						<div class="col-sm-6"> {{ form_errors(form.mainImage.file) }} {{ form_widget(form.mainImage.file) }} {{ form_help(form.mainImage.file) }}
