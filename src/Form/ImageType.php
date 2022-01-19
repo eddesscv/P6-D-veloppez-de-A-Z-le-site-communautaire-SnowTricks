@@ -17,7 +17,9 @@ class ImageType extends ApplicationType
     {
         $builder
             ->add('file', FileType::class, $this->getOptions("Fichier de l'image", "Fichier de l'image"))
-            ->add('alt', TextType::class, $this->getOptions("Description de l'image", "Description de l'image"));
+            ->add('alt', TextType::class, $this->getOptions("Description de l'image", "Description de l'image", [
+                'required' => false,
+            ]));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
