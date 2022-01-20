@@ -21,13 +21,13 @@ Téléchargez et installez les dépendances front-end du projet avec Npm :
 Créer un build d'assets (grâce à Webpack Encore) avec Npm :
 
     npm run build
-Créez la base de données si elle n'existe pas déjà, taper la commande ci-dessous en vous plaçant dans le répertoire du projet :
+Créer la base de données si elle n'existe pas déjà, taper la commande ci-dessous en vous plaçant dans le répertoire du projet :
 
     php bin/console doctrine:database:create
-Créez les différentes tables de la base de données en appliquant les migrations :
+Créer une migration SQL à partir des entités présentes :
 
     php bin/console make:migration
-Créez les différentes tables de la base de données en appliquant les migrations :
+Lancer les scripts de migrations afin de mettre à jour la base :
 
     php bin/console doctrine:migrations:migrate
 (Optionnel) Installer les fixtures pour avoir une démo de données fictives :
