@@ -26,6 +26,9 @@ Créez la base de données si elle n'existe pas déjà, taper la commande ci-des
     php bin/console doctrine:database:create
 Créez les différentes tables de la base de données en appliquant les migrations :
 
+    php bin/console make:migration
+Créez les différentes tables de la base de données en appliquant les migrations :
+
     php bin/console doctrine:migrations:migrate
 (Optionnel) Installer les fixtures pour avoir une démo de données fictives :
 
