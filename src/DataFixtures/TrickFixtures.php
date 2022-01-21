@@ -31,7 +31,7 @@ class TrickFixtures extends Fixture
         $categories = [];
         $genders = ['male', 'female'];
         $categoriesDemoName = ['Grabs', 'Rotations', 'Flips', 'Rotations désaxées', 'Slides', 'One foot', 'Old school'];
-        $tricksDemoName = ['Mute', 'Indy', '360', '720', 'Backflip', 'Misty', 'Tail slide', 'Method air', 'Backside air'];
+        $tricksDemoName = ['Mute', 'Indy', '360', '720', 'Backflip', 'Misty', 'Tail slide', 'Method air', 'Backside air', 'Frontside boardslide'];
 
         // 3 Users
         for ($i = 0; $i < 3; $i++) {
@@ -46,10 +46,9 @@ class TrickFixtures extends Fixture
                 ->setPassword($this->encoder->encodePassword($user, 'password'))
                 ->setPassword($faker->password)
                 ->setCreatedAt($faker->dateTimeBetween('-6 months'))
-                ->setActivated(true)
+                ->setIsVerified(true)
                 ->setImagePath('https://randomuser.me')
-                ->setImageName('api/portraits/' . ($gender == 'male' ? 'men/' : 'women/') . $faker->numberBetween(1, 99) . '.jpg')
-                ->setToken(md5(random_bytes(10)));
+                ->setImageName('api/portraits/' . ($gender == 'male' ? 'men/' : 'women/') . $faker->numberBetween(1, 99) . '.jpg');
             $manager->persist($user);
             $users[] = $user;
         }
@@ -63,7 +62,7 @@ class TrickFixtures extends Fixture
             $categories[] = $category;
         }
 
-        // 9 Tricks
+        // 10 Tricks
         foreach ($tricksDemoName as $trickTitle) {
             $trick = new Trick();
             $trick->setTitle($trickTitle)
@@ -77,9 +76,10 @@ class TrickFixtures extends Fixture
             // 3 Image by Trick
             for ($k = 1; $k < 4; $k++) {
                 $image = new Image();
-                $image->setPath('img/tricks')
+                $image/* ->setPath('img/tricks')
+                    ->setTitle($trick->getTitle() . ' ' . $k . '.jpg') */
+                    ->setPath('https://picsum.photos/1440/900?random=2')
                     ->setTitle($trick->getTitle() . ' ' . $k . '.jpg')
-                    //->setCaption('Image du trick ' . $trick->getName())
                     ->setAlt('Image du trick' . $trick->getTitle())
                     ->setTrick($trick);
 
@@ -101,8 +101,8 @@ class TrickFixtures extends Fixture
                 $manager->persist($video);
             }
 
-            // 0 to 3 Comment by Trick
-            for ($m = 0; $m < mt_rand(0, 3); $m++) {
+            // 0 to 12 Comment by Trick
+            for ($m = 0; $m < mt_rand(0, 12); $m++) {
                 $comment = new Comment();
                 $comment->setContent($faker->sentence(mt_rand(1, 5)))
                     ->setCreatedAt(new \Datetime)
