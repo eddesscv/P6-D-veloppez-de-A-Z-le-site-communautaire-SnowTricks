@@ -101,6 +101,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $comments;
 
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->tricks = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -257,8 +263,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->password = null;
     }
 
     public function getEmail(): ?string
