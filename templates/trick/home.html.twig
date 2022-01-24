@@ -92,7 +92,7 @@ click = 0;
 function loadMoreTricks(event) {
 event.preventDefault();
 click ++;
-var start = 15 * click;
+var start = 10 * click;
 const url = "{{ path('loadMoreTricks') }}" + start;
 
 axios.get(url).then(function (response) {
