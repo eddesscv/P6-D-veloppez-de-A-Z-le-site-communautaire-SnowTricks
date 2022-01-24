@@ -29,7 +29,14 @@
 		{% endfor %}
 		{% for video in trick.videos %}
 			<div class="trickVideo col-sm-6 col-md-4 col-lg-4 col-xl-3 border border-dark">
-				<iframe width="560" height="315" src="{{ video.url|raw }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				{% if video.url is not empty %}
+					{% set id = video.url|split('v=')|last %}
+					{% set id1 = id|split('&')|first %}
+					{% set id2 = id1|split('/')|last %}
+					<figure style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin: 0px;">
+						<iframe width="100%" height="315" src="https://www.youtube.com/embed/{{id2}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</figure>
+				{% endif %}
 			</div>
 		{% endfor %}
 	</div>
@@ -101,7 +108,6 @@
 		<img src="#" alt="">
 	</div>
 {% endblock %}
-
 {% block javascripts %} {{ parent() }}
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script>

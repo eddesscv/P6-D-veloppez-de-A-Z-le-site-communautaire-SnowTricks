@@ -12,12 +12,6 @@ class CommentType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /* $builder
-            ->add('content')
-            //->add('createdAt')
-            //->add('trick')
-            ->add('user')
-        ; */
 
         $builder
             ->add('content', TextareaType::class, $this->getOptions("Ajouter un commentaire", "Votre commentaire"));

@@ -38,14 +38,14 @@ class TrickController extends AbstractController
 
 
     /**
-     * Get the 15 next tricks in the database and create a Twig file with them that will be displayed via Javascript
+     * Get the 1O next tricks in the database and create a Twig file with them that will be displayed via Javascript
      * 
      * @Route("/trick{start}", name="loadMoreTricks", requirements={"start": "\d+"})
      */
-    public function loadMoreTricks(TrickRepository $repo, $start = 15)
+    public function loadMoreTricks(TrickRepository $repo, $start = 10)
     {
         // Get 15 tricks from the start position
-        $tricks = $repo->findBy([], ['createdAt' => 'DESC'], 15, $start);
+        $tricks = $repo->findBy([], ['createdAt' => 'DESC'], 10, $start);
 
         return $this->render('home/loadMoreTricks.html.twig', [
             'tricks' => $tricks
@@ -138,9 +138,6 @@ class TrickController extends AbstractController
                 'Le trick <strong>' . $trick->getTitle() . '</strong> a bien été enregistré !'
             );
 
-            /* return $this->redirectToRoute('trick_show', [
-                'slug' => $trick->getSlug()
-            ]); */
             return $this->redirectToRoute('home', ['_fragment' => 'portfolio']);
         }
 

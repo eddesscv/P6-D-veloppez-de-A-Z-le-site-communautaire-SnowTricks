@@ -56,7 +56,6 @@ class CategoryController extends AbstractController
                 'La catégorie <strong>' . $category->getTitle() . '</strong> a bien été créé !'
             );
 
-            /* return $this->redirectToRoute('category_show', ['id' => $category->getId()]); */
             return $this->redirectToRoute('trick_create');
         }
 

@@ -31,7 +31,7 @@ class TrickFixtures extends Fixture
         $categories = [];
         $genders = ['male', 'female'];
         $categoriesDemoName = ['Grabs', 'Rotations', 'Flips', 'Rotations désaxées', 'Slides', 'One foot', 'Old school'];
-        $tricksDemoName = ['Mute', 'Indy', '360', '720', 'Backflip', 'Misty', 'Tail slide', 'Method air', 'Backside air', 'Frontside boardslide'];
+        $tricksDemoName = ['Mute', 'Indy', '360', '720', 'Backflip', 'Misty', 'Tail slide', 'Method air', 'Backside air', 'Fs boardslide'];
 
         // 3 Users
         for ($i = 0; $i < 3; $i++) {
