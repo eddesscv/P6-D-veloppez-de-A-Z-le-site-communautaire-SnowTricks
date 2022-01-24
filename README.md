@@ -1,6 +1,7 @@
 # P6-OC-SnowTricks-Symfony
 Développez de A à Z le site communautaire SnowTricks
 
+[![SymfonyInsight](https://insight.symfony.com/projects/479002c1-63aa-4221-a31f-28e30e012056/big.svg)](https://insight.symfony.com/projects/479002c1-63aa-4221-a31f-28e30e012056/analyses/20)
 
 
 Création d'un site communautaire de partage de figures de snowboard via le framework Symfony.
