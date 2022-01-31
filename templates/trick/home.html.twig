@@ -50,7 +50,9 @@
 										<i class="fas fa-ellipsis-h fa-3x"></i>
 										<br/></div>
 								</div>
-								<img src="{{ asset(trick.mainImage.pathThumbnail ~ '/' ~ trick.mainImage.title) }}" class="card-img-top" alt="{{ trick.mainImage.alt }}">
+								{% if trick.images|length > 0  %}
+									<img src="{{ asset(trick.images[0].pathThumbnail ~ '/' ~ trick.images[0].title) }}" class="card-img-top" alt="{{ trick.images[0].alt }}">
+								{% endif %}
 							</a>
 							<div class="portfolio-caption ">
 								<div class="portfolio-caption-heading text-uppercase mb-4">{{ trick.title }}</div>

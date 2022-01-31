@@ -1,13 +1,14 @@
 {% for comment in trick.comments | slice(start, start + 5) %}
-    <div class="comment row mx-auto">
-        <div class="col-md-10 col-12 mx-auto row">
-            <div class="userImage col-lg-2 col-4">
-                <img src="{{ asset(comment.user.imagePath ~ '/' ~ comment.user.imageName) }}" class="avatar avatar-medium" alt="comment.user.username">
-            </div>
-            <p class="col-lg-10 col-8 bg-light">
-                <strong>{{ comment.user.username }}</strong> <small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
-                <br>{{ comment.content }}
-            </p>
-        </div>
-    </div>
+	<div class="comment row mx-auto">
+		<div class="col-md-10 col-12 mx-auto row">
+			<div class="userImage col-lg-2 col-4">
+				<img src="{{ asset(comment.user.imagePath ~ '/' ~ comment.user.imageName) }}" class="avatar avatar-medium" alt="comment.user.username">
+			</div>
+			<p class="col-lg-10 col-8 bg-light">
+				<strong>{{ trick.user.firstName }} {{ trick.user.lastName }}</strong>
+				<small class="text-muted">({{ comment.createdAt | date('d/m/Y à H:i') }}) :</small>
+				<br>{{ comment.content }}
+			</p>
+		</div>
+	</div>
 {% endfor %}

@@ -57,16 +57,21 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->addFlash(
+                'success',
+                "Votre compte a bien été créé. Veuillez vérifier votre email pour faire la validation   clr!"
+            );
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation(
                 'app_verify_email',
                 $user,
                 (new TemplatedEmail())
-                    ->from(new Address('snowtricks_2021@hotmail.com', 'Snowtricks confirmation'))
+                    ->from(new Address('snowtricks_2021@hotmail.com', 'Snowtricks'))
                     ->to($user->getEmail())
-                    ->subject('Veuillez confirmer votre email')
+                    ->subject('Confirmation création de compte')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
+            return $this->redirectToRoute('account_login');
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(

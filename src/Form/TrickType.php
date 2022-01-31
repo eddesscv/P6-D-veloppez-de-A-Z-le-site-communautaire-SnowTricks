@@ -28,7 +28,6 @@ class TrickType extends ApplicationType
                 'class' => Category::class,
                 'choice_label' => 'title',
             ]))
-            ->add('mainImage', ImageType::class, $this->getOptions('Image principale', 'Image principale'))
             ->add('images', CollectionType::class, [
                 'entry_type' => ImageType::class,
                 'allow_add' => true,
@@ -45,8 +44,7 @@ class TrickType extends ApplicationType
     {
 
         $resolver->setDefaults([
-            'data_class' => Trick::class,
-            //'error_bubbling' => true,
+            'data_class' => Trick::class
         ]);
     }
 }

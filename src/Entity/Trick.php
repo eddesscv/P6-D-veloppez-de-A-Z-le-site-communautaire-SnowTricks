@@ -64,18 +64,19 @@ class Trick
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick",orphanRemoval=true, cascade={"persist", "remove"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true, cascade={"persist", "remove"})
      * @Assert\Valid()
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick",orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $videos;
 
@@ -85,11 +86,7 @@ class Trick
      */
     private $user;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Image", orphanRemoval=true, cascade={"persist", "remove"})
-     * @Assert\Valid()
-     */
-    private $mainImage;
+
 
     public function __construct()
     {
@@ -299,7 +296,7 @@ class Trick
         return $this;
     }
 
-    public function getMainImage(): ?Image
+    /* public function getMainImage(): ?Image
     {
         return $this->mainImage;
     }
@@ -309,5 +306,5 @@ class Trick
         $this->mainImage = $mainImage;
 
         return $this;
-    }
+    } */
 }

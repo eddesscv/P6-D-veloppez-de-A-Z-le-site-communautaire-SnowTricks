@@ -27,7 +27,7 @@ class TrickController extends AbstractController
     public function home(TrickRepository $repo): Response
     {
 
-        $tricks = $repo->findAll();
+        $tricks = $repo->findBy([], ['createdAt' => 'DESC'], 10, 0);
 
         return $this->render('trick/home.html.twig', [
             'controller_name' => 'TrickController',
@@ -36,18 +36,17 @@ class TrickController extends AbstractController
         ]);
     }
 
-
     /**
      * Get the 1O next tricks in the database and create a Twig file with them that will be displayed via Javascript
      * 
-     * @Route("/trick{start}", name="loadMoreTricks", requirements={"start": "\d+"})
+     * @Route("/{start}", name="loadMoreTricks", requirements={"start": "\d+"})
      */
     public function loadMoreTricks(TrickRepository $repo, $start = 10)
     {
-        // Get 15 tricks from the start position
+        // Get 10 tricks from the start position
         $tricks = $repo->findBy([], ['createdAt' => 'DESC'], 10, $start);
 
-        return $this->render('home/loadMoreTricks.html.twig', [
+        return $this->render('trick/loadMoreTricks.html.twig', [
             'tricks' => $tricks
         ]);
     }
@@ -55,10 +54,10 @@ class TrickController extends AbstractController
     /**
      *
      * @Route("/trick/new", name="trick_create")
-     * @Route("/trick/{id}/edit", name="trick_edit")
+     * @Route("/trick/edit/{slug}", name="trick_edit")
      * @IsGranted("ROLE_USER") 
      */
-    /*  public function form(Trick $trick = null, Request $request, EntityManagerInterface $manager) //"Doctrine\Persistence\ObjectManager" but no such service exists.
+    public function form(Trick $trick = null, Request $request, EntityManagerInterface $manager, Cropper16x9 $cropper16x9, UploadImage $uploadImage, ThumbnailResizer $thumbnailResizer) //"Doctrine\Persistence\ObjectManager" but no such service exists.
     {
         if (!$trick) {
             $trick = new Trick();
@@ -69,44 +68,9 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$trick->getId()) {
+            if (!$trick->getSlug()) {
                 $trick->setCreatedAt(new \DateTime());
             }
-            $manager->persist($trick);
-            $manager->flush();
-
-            $this->addFlash('success', 'La figure a bien été créée');
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
-        }
-
-        return $this->render('trick/create.html.twig', [
-            'form' => $form->createView(),
-            'editMode' => $trick->getId() !== null
-        ]);
-    } */
-
-    public function create(Trick $trick = null, Request $request, EntityManagerInterface $manager, Cropper16x9 $cropper16x9, UploadImage $uploadImage, ThumbnailResizer $thumbnailResizer)
-    {
-        $trick = new Trick();
-
-        $form = $this->createForm(TrickType::class, $trick);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $mainImage = $trick->getMainImage();
-            // Assignation du trick à l'image principale
-            $mainImage->setTrick($trick);
-            // Enregistrement de l'image sur le disque dur et en BDD
-            $mainImage = $uploadImage->saveImage($mainImage);
-            // On persiste l'entité Image une fois bien remplie dans la BDD
-            $manager->persist($mainImage);
-
-            // Enregistrement sur le disque de l'image redimensionnée en 16x9
-            $cropper16x9->crop($mainImage);
-            // Enregistrement sur le disque de l'image redimensionnée à la taille d'un thumbnail
-            $thumbnailResizer->resize($mainImage);
-
             foreach ($trick->getImages() as $image) {
                 // Assignation du trick à l'image
                 $image->setTrick($trick);
@@ -142,9 +106,11 @@ class TrickController extends AbstractController
         }
 
         return $this->render('trick/create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'editMode' => $trick->getSlug() !== null
         ]);
     }
+
 
 
     /**
@@ -175,7 +141,6 @@ class TrickController extends AbstractController
 
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
-
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'form' => $form->createView()
@@ -197,44 +162,7 @@ class TrickController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/trick/edit/{slug}", name="trick_edit")
-     * @IsGranted("ROLE_USER")
-     */
-    public function edit(Request $request, TrickRepository $repo, EntityManagerInterface $manager, $slug)
-    {
-        $trick = $repo->findOneBySlug($slug);
 
-        $form = $this->createForm(TrickType::class, $trick);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($trick->getImages() as $image) {
-                $image->setTrick($trick);
-                $manager->persist($image);
-            }
-
-            $trick->setUpdatedAt(new \DateTime());
-
-            $manager->persist($trick);
-            $manager->flush();
-
-            $this->addFlash(
-                'success',
-                'Le trick <strong>' . $trick->getTitle() . '</strong> a bien été modifié !'
-            );
-
-            return $this->redirectToRoute('trick_show', [
-                'slug' => $trick->getSlug()
-            ]);
-        }
-
-        return $this->render('trick/edit.html.twig', [
-            'form' => $form->createView(),
-            'trick' => $trick
-        ]);
-    }
 
     /**
      * @Route("/trick/delete/{slug}", name="trick_delete")

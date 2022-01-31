@@ -1,23 +1,34 @@
 {% for trick in tricks %}
-	<div class="col-lg-3 col-md-4 col-sm-6">
-		<div class="card">
-			<a href="{{ path('trick_show', {'slug': trick.slug}) }}">
-				<img src="{{ asset(trick.mainImage.pathThumbnail ~ '/' ~ trick.mainImage.name) }}" class="card-img-top" alt="{{ trick.mainImage.caption }}">
-				<div class="card-body text-center">
-					<h5 class="card-title"> {{ trick.name }}
-						{% if app.user %}
-							<div class="float-right">
-								<a href="{{ path('trick_edit', {'slug': trick.slug}) }}">
-									<i class="fas fa-pencil-alt"></i>
-								</a>
-								<a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Êtes-vous sûr de vouloir supprimer le trick : {{trick.name}} ?`)">
-									<i class="fas fa-trash-alt"></i>
-								</a>
-							</div>
-						{% endif %}
-					</h5>
+	<div class="col-lg-3 col-sm-6 mb-4 mb-lg-4">
+		<div class="portfolio-item">
+			<a class="portfolio-link" href="{{ path('trick_show', {'slug': trick.slug}) }}">
+				<div class="portfolio-hover">
+					<div class="portfolio-hover-content text-center">
+						<i class="fas fa-ellipsis-h fa-3x"></i>
+						<br/></div>
 				</div>
+				{% if trick.images|length > 0  %}
+					<img src="{{ asset(trick.images[0].pathThumbnail ~ '/' ~ trick.images[0].title) }}" class="card-img-top" alt="{{ trick.images[0].alt }}">
+				{% endif %}
 			</a>
+			<div class="portfolio-caption ">
+				<div class="portfolio-caption-heading text-uppercase mb-4">{{ trick.title }}</div>
+
+				<hr class="my-4 mx-auto text-muted"/>
+				<div class="d-flex justify-content-between">
+					<h6 class="portfolio-caption-subheading text-muted text-md-start col-md-8">{{ trick.category.title }}</h6>
+					{% if app.user %}
+						<div class="operations">
+							<a href="{{ path('trick_edit', {'slug': trick.slug}) }}">
+								<i class="fas fa-pencil-alt"></i>
+							</a>
+							<a href="{{ path('trick_delete', {'slug': trick.slug}) }}" onclick="return confirm(`Êtes-vous sûr de vouloir supprimer le trick : {{trick.title}} ?`)">
+								<i class="fas fa-trash-alt"></i>
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			</div>
 		</div>
 	</div>
 {% endfor %}
