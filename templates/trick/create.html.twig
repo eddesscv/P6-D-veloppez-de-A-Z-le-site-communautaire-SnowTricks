@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SnowTricks - Créer un trick
+{% block title %}
+	{% if editMode %}
+		Modification de la figure
+	{% else %}
+		SnowTricks - Créer un trick
+	{% endif %}
 {% endblock %}
 
 {% form_theme form 'shared/_collection.html.twig' %}
@@ -9,25 +14,30 @@
 	<section class="page-section">
 		<div class="container py-5 mt-5">
 			<div class="text-center">
-				<h2 class="section-heading text-uppercase">Créer un nouveau trick</h2>
-				<h3 class="section-subheading">Merci de contribuer dans notre communaute!</h3>
+				{% if editMode %}
+					<h2 class="section-heading text-uppercase">Modifier le trick</h2>
+				{% else %}
+					<h2 class="section-heading text-uppercase">Créer un nouveau trick</h2>
+					<h3 class="section-subheading">Merci de contribuer dans notre communaute!</h3>
+				{% endif %}
 			</div>
 			<div class="container col-lg-7 col-md-10 mx-auto"> {{ form_start(form) }} {{ form_row(form.category) }}
 				<p>
-					<a href="{{ path('category_create') }}">Ajouter une nouvelle catégorie</a>
-				</p> {{ form_row(form.title) }} {{ form_row(form.description) }}
-				<div class="form-group"> {{ form_label(form.mainImage) }}
-					<div class="row">
-						<div class="col-sm-6"> {{ form_errors(form.mainImage.file) }} {{ form_widget(form.mainImage.file) }} {{ form_help(form.mainImage.file) }}
-						</div>
-						<div class="col-sm-6"> {{ form_errors(form.mainImage.alt) }} {{ form_widget(form.mainImage.alt) }} {{ form_help(form.mainImage.alt) }}
-						</div>
-					</div>
-				</div> {{ form_row(form.images) }} {{ form_row(form.videos) }}
+					{% if not editMode %}
+						<a href="{{ path('category_create') }}">Ajouter une nouvelle catégorie</a>
+					{% endif %}
+				</p> {{ form_row(form.title) }} {{ form_row(form.description) }} {{ form_row(form.images) }} {{ form_row(form.videos) }}
 
 				<button type="submit" class="btn btn-lg col-12 btn-primary btn-xl text-uppercase">
-					<i class="fas fa-check"></i>
-					Créer le nouveau trick !</button> {{ form_end(form) }}
+					{% if editMode %}
+						<i class="fas fa-pencil-alt"></i>
+						Modifier la figure
+					{% else %}
+
+						<i class="fas fa-check"></i>
+						Créer le nouveau trick !
+					{% endif %}
+				</button> {{ form_end(form) }}
 			</div>
 		</div>
 	</section>

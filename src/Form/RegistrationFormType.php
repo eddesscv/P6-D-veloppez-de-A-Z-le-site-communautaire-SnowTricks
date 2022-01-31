@@ -30,17 +30,6 @@ class RegistrationFormType extends ApplicationType
                     'autocomplete' => 'new-password',
                     'placeholder' => 'Mot de passe'
                 ],
-                /* 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ], */
             ])
             ->add('passwordConfirm', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -50,29 +39,10 @@ class RegistrationFormType extends ApplicationType
                     'autocomplete' => 'new-password',
                     'placeholder' => 'Répeter le mot de passe'
                 ],
-                /* 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ], */
             ])
             ->add('firstName', TextType::class, $this->getOptions("Prénom", "Votre prénom"))
             ->add('lastName', TextType::class, $this->getOptions("Nom", "Votre nom"))
-            ->add('file', FileType::class, $this->getOptions("Photo de profil", "Photo de profil"))
-            /* ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ]) */;
+            ->add('file', FileType::class, $this->getOptions("Photo de profil", "Photo de profil"));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
