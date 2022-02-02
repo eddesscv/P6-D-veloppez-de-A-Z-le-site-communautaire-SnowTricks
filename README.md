@@ -34,7 +34,5 @@ Lancer les scripts de migrations afin de mettre à jour la base :
 Si erreur, lancer la commande :
 
     php bin/console doctrine:schema:update --force
-(Optionnel) Installer les fixtures pour avoir une démo de données fictives :
 
-    php bin/console doctrine:fixtures:load
 Félications le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
