@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/", name="home", defaults={"_fragment" = "portfolio"})
+     * @Route("/", name="home")
      */
     public function home(TrickRepository $repo): Response
     {
