@@ -1,8 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SnowTricks - Page non trouvée{% endblock %}
+{% block title %}SnowTricks - Page non trouvée
+{% endblock %}
 
 {% block body %}
-    <h2>Oups ! La page que vous recherchez n'existe pas !</h2>
-    <a href="{{ path('home') }}" class="btn btn-primary">Retour à la page d'accueil</a>
+	<div class="container py-5 mt-5">
+		<div class="text-center">
+			<h2>Oups ! La page que vous recherchez n'existe pas !</h2>
+			<a href="{{ path('home') }}" class="btn btn-primary">Retour à la page d'accueil</a>
+		</div>
+	</div>
 {% endblock %}

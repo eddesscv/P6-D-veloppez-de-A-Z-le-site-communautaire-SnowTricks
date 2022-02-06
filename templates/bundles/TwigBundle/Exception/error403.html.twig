@@ -1,8 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SnowTricks - Accès refusé{% endblock %}
+{% block title %}SnowTricks - Accès refusé
+{% endblock %}
 
 {% block body %}
-    <h2>Vous ne possédez pas les droits nécessaires pour accéder à cette ressource !</h2>
-    <a href="{{ path('home') }}" class="btn btn-primary">Retour à la page d'accueil</a>
+	<div class="container py-5 mt-5">
+		<div class="text-center">
+			<h2>Vous ne possédez pas les droits nécessaires pour accéder à cette ressource !</h2>
+			<a href="{{ path('home') }}" class="btn btn-primary">Retour à la page d'accueil</a>
+		</div>
+	</div>
 {% endblock %}
