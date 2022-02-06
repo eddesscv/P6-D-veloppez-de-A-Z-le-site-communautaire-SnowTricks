@@ -22,36 +22,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TrickController extends AbstractController
 {
     /**
-     * @Route("/", name="home", defaults={"_fragment" = "portfolio"})
-     */
-    public function home(TrickRepository $repo): Response
-    {
-
-        $tricks = $repo->findBy([], ['createdAt' => 'DESC'], 10, 0);
-
-        return $this->render('trick/home.html.twig', [
-            'controller_name' => 'TrickController',
-            'tricks' => $tricks,
-            'title' => "Bienvenue sur SnowTricks !"
-        ]);
-    }
-
-    /**
-     * Get the 1O next tricks in the database and create a Twig file with them that will be displayed via Javascript
-     * 
-     * @Route("/{start}", name="loadMoreTricks", requirements={"start": "\d+"})
-     */
-    public function loadMoreTricks(TrickRepository $repo, $start = 10)
-    {
-        // Get 10 tricks from the start position
-        $tricks = $repo->findBy([], ['createdAt' => 'DESC'], 10, $start);
-
-        return $this->render('trick/loadMoreTricks.html.twig', [
-            'tricks' => $tricks
-        ]);
-    }
-
-    /**
      *
      * @Route("/trick/new", name="trick_create")
      * @Route("/trick/edit/{slug}", name="trick_edit")
@@ -148,11 +118,11 @@ class TrickController extends AbstractController
     }
 
     /**
-     * Get the 5 next comments in the database and create a Twig file with them that will be displayed via Javascript
+     * Get the 10 next comments in the database and create a Twig file with them that will be displayed via Javascript
      * 
      * @Route("/trick/{slug}/{start}", name="loadMoreComments", requirements={"start": "\d+"})
      */
-    public function loadMoreComments(TrickRepository $repo, $slug, $start = 5)
+    public function loadMoreComments(TrickRepository $repo, $slug, $start = 10)
     {
         $trick = $repo->findOneBySlug($slug);
 
