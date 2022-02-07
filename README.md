@@ -45,5 +45,9 @@ Lancer les scripts de migrations afin de mettre à jour la base :
 Si erreur, lancer la commande :
 
     php bin/console doctrine:schema:update --force
+Lancez le projet avec la commande :
+
+    php bin/console server:run
+    et vous serez redirigé vers => http://127.0.0.1:8000 (ou http://localhost:8000)
 
 Félications le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
