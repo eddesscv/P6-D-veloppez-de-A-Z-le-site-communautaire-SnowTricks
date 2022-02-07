@@ -6,6 +6,17 @@ Développez de A à Z le site communautaire SnowTricks
 
 Création d'un site communautaire de partage de figures de snowboard via le framework Symfony.
 
+## Environnement de développement
+- Symfony 5.2.2
+- Composer 2.2.5
+- Bootstrap 5.0.2
+- jQuery 3.3.1
+- PHPUnit 9.5
+- WampServer 3.1.6
+    - Apache 2.4.51
+    - PHP 7.4.26
+    - MySQL 8.0.27
+
 
 ## Installation
 Clonez ou téléchargez le repository GitHub dans le dossier voulu :
