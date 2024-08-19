@@ -48,6 +48,7 @@ Si erreur, lancer la commande :
 Lancez le projet avec la commande :
 
     php bin/console server:run
-    et vous serez redirigé vers => http://127.0.0.1:8000 (ou http://localhost:8000)
+    et vous serez redirigé vers => http://127.0.0.1:8000 (ou http://localhost:8000) => Si erreur, lancer : php -S localhost:8000 -t public OU symfony serve
+
 
 Félications le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
